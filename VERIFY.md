@@ -5,9 +5,8 @@ Fresh-clone verification – python-civil-time-footgun-lab
 ## Commit verified
 
 ```
-b90af4885496f84f9ab00ae0c0c0d3d176276c6e
-audit fixes: detailed results_rows.csv/json, HN thread evidence,
-improved correctness scoring
+0c86032e15be01d41b91c559d9318c1ec1c8f1c2
+RESULTS.md: honest correctness scoring description
 ```
 
 ## Fresh clone transcript
@@ -43,7 +42,7 @@ Exit code: 0
 ## Artifacts produced
 
 - `cases.json` – 48 deterministic synthetic cases
-- `RESULTS.md` – summary tables
+- `RESULTS.md` – summary tables (with honest correctness scoring: pass/fail based on ok status; observation fields recorded in results_rows.csv for audit)
 - `results_rows.csv` – 624 rows, full per-method/per-case records
 - `results_rows.json` – same data as JSON
 
