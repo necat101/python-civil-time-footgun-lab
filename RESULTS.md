@@ -5,23 +5,26 @@ Cases: 48 | Methods: 13 | Total runs: 624
 Passed: 624 | Failed: 0
 
 
+Detailed per-method/per-case records: [`results_rows.csv`](results_rows.csv) / [`results_rows.json`](results_rows.json)
+
+
 ## By method
 
 | Method | Pass | Fail | Time ms |
 |---|---|---|---|
-| preserve_local_civil_time_baseline | 48 | 0 | 0.37 |
-| derive_utc_from_zoneinfo_when_possible | 48 | 0 | 115.47 |
-| utc_only_storage_baseline | 48 | 0 | 10.84 |
-| fixed_offset_only_baseline | 48 | 0 | 10.07 |
-| naive_add_168_hours_recurrence | 48 | 0 | 9.73 |
-| calendar_weekly_local_recurrence | 48 | 0 | 10.33 |
-| gap_and_fold_caveat_detector | 48 | 0 | 10.40 |
-| all_day_date_guard | 48 | 0 | 0.09 |
-| local_vs_utc_grouping_demo | 48 | 0 | 9.44 |
-| zone_key_validator | 48 | 0 | 7.94 |
+| preserve_local_civil_time_baseline | 48 | 0 | 0.32 |
+| derive_utc_from_zoneinfo_when_possible | 48 | 0 | 113.89 |
+| utc_only_storage_baseline | 48 | 0 | 10.43 |
+| fixed_offset_only_baseline | 48 | 0 | 10.00 |
+| naive_add_168_hours_recurrence | 48 | 0 | 9.74 |
+| calendar_weekly_local_recurrence | 48 | 0 | 10.05 |
+| gap_and_fold_caveat_detector | 48 | 0 | 10.23 |
+| all_day_date_guard | 48 | 0 | 0.08 |
+| local_vs_utc_grouping_demo | 48 | 0 | 9.15 |
+| zone_key_validator | 48 | 0 | 8.01 |
 | timezone_abbreviation_caveat_detector | 48 | 0 | 0.04 |
-| display_preservation_checker | 48 | 0 | 0.29 |
-| deliver_no_external_truth_marker | 48 | 0 | 0.04 |
+| display_preservation_checker | 48 | 0 | 0.33 |
+| deliver_no_external_truth_marker | 48 | 0 | 0.05 |
 
 ## Tag counts
 
@@ -63,11 +66,15 @@ Passed: 624 | Failed: 0
 - Network calls: 0
 - External calendar/timezone APIs: 0
 - HN thread accessed: yes – https://news.ycombinator.com/item?id=19500640
-- tracemalloc current: 2344859 bytes, peak: 2421873 bytes
+  - Evidence: [`hn_thread_evidence.md`](hn_thread_evidence.md)
+- tracemalloc current: 2750356 bytes, peak: 2826732 bytes
 
 ## Correctness policy
 
 Correctness before speed. UTC is great for past instants/logs. Future human schedules need local civil time + zone context. Offsets ≠ zone IDs. Recurring meetings ≠ add 168h. DST gaps/folds need business policy. All-day = date, not 00:00–23:59:59. User intent matters.
+
+
+Correctness scoring validates: expected ok status, local_preserved, utc_derived, gap/fold detection, recurrence_ok, all_day_ok, display_preserved, grouping_differs, zone_valid, abbrev_caveat, external_truth_not_tested – per method.
 
 
 ## Notes

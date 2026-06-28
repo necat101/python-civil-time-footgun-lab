@@ -1,0 +1,142 @@
+=== HN 19501110 ===
+{
+  "by": "rlpb",
+  "id": 19501110,
+  "kids": [
+    19502580,
+    19501466,
+    19501223,
+    19501747,
+    19504190,
+    19502834,
+    19504762,
+    19504072
+  ],
+  "parent": 19500640,
+  "text": "This is the same as the alarm clock problem. When a user creates an event, what does that user _mean_? In the alarm clock example, what should happen if I&#x27;ve set my alarm clock 7am and then travel to a different time zone? In the conference event example, what should happen if the local time zone rules change, or daylight savings time comes into force? Did the event organiser print marketing materials that said &quot;starts at 1000 UTC&quot; or &quot;starts at 10am&quot; with a &quot;in the local time zone&quot; implication?<p>Events generally need to be locked to _something_ - whether that is UTC or a local time zone depends on the application.<p>The iCalendar standard (<a href=\"https:&#x2F;&#x2F;tools.ietf.org&#x2F;html&#x2F;rfc5545\" rel=\"nofollow\">https:&#x2F;&#x2F;tools.ietf.org&#x2F;html&#x2F;rfc5545</a>) generally gets this right.",
+  "time": 1553697026,
+  "type": "comment"
+}
+=== HN 19502802 ===
+{
+  "by": "sudhirj",
+  "id": 19502802,
+  "kids": [
+    19505903,
+    19503376
+  ],
+  "parent": 19500640,
+  "text": "There was another discussion here 10 months ago after Zach Holman&#x27;s post: <a href=\"https:&#x2F;&#x2F;news.ycombinator.com&#x2F;item?id=17181046\" rel=\"nofollow\">https:&#x2F;&#x2F;news.ycombinator.com&#x2F;item?id=17181046</a><p>Sort of a summarization of most of the ideas here is:<p>* for clear instants like a system log UTC makes sense<p>* for times in the past (far enough in the past that you know your current TZ rules are correct) UTC makes sense.<p>* for the immediate past (near enough where your rules might not be correct) you might want to store zone as well.<p>For all cases of times in the past, remember that you&#x27;re trying to record an <i>instant</i>. An exact unambiguous point in time that is the same irrespective of who is looking at it or where they are. For this UTC makes sense - people who see  that instant converted to their local timezone are noting what their clocks would have shown at that instant, but everyone who will ever see it is always referencing the same instant.<p>FUTURE times are very different. There are times at which you want to reference a future instant, at which point you can just use UTC, but most often what you really have is &quot;this is what I expect to see on my wall clock when this thing happens&quot;. That is a very different beast, because nobody knows what the timezone rules or geopolitical situation will be when that thing does happen.<p>You need to recognize the use cases where what you mean is &quot; I expect to see XX:YY:ZZ on my wall clock when this happens&quot;  and just record that information as is, including as much information as you can about that wall clock - possibly which timezone it (currently) uses, where it is (in case the timezone itself changes) and then convert to an instant at the last possible moment, or keep updating your instant based on changing rules.",
+  "time": 1553705049,
+  "type": "comment"
+}
+=== HN 19502213 ===
+{
+  "by": "reaperducer",
+  "id": 19502213,
+  "kids": [
+    19503184,
+    19507053
+  ],
+  "parent": 19500640,
+  "text": "Time is so messy, and that messiness becomes apparent when the yes&#x2F;no, true&#x2F;false world of computers tries to interpret things.<p>The blog posts brings up a lot of good points about time zones changing, and the comments make even better points about people moving across time zones.  Something that confounds me occasionally is the concept of &quot;local human time&quot; because there are all sorts of ways that humans tamper with time.<p>Lawmakers, for example, that are required to pass certain laws by a particular date will sometimes unplug clocks in the legislative chambers to stop the legal passage of time while negotiations continue.  You end up in a situation where,  on paper the next day or week, 134 laws were negotiated, voted on, ratified, re-voted, passed, and signed all at exactly $date:23:59:59.  A physical impossibility, but a legal fact.<p>Or, as I explore the more interesting corners of America more, there are entire towns and regions that ignore their official time zone and every house, business, church, pharmacy, etc... is on a more convenient time for the locals.  The only place you see the official time is at the post office.<p>People are messy.  Time is messy.  People * time = a complete mess.",
+  "time": 1553702251,
+  "type": "comment"
+}
+=== HN 19501588 ===
+{
+  "by": "lmm",
+  "id": 19501588,
+  "kids": [
+    19501988
+  ],
+  "parent": 19500640,
+  "text": "Storing UTC (or rather TAI) is a silver bullet for &quot;system&quot; times - things that need to happen on a regular schedule, where we care how much time has passed between one instant and another, or things where we want to record at what instant something happened, and correlate system events with each other.<p>Indeed it doesn&#x27;t solve the problem of handling user-inputted &quot;human&quot; times correctly. But that is a much rarer case than needing to handle &quot;system&quot; times. Many - probably most - applications never need to handle a &quot;human&quot; time at all.",
+  "time": 1553699402,
+  "type": "comment"
+}
+=== HN 19503082 ===
+{
+  "by": "ble",
+  "id": 19503082,
+  "parent": 19500640,
+  "text": "The distinction between different kinds of time is really pretty key to having a clear understanding.<p>Civil time is different from atomic time and different from sidereal time or solar time.<p>Civil time is how people, businesses, and governments organize and plan their activities.<p>Atomic time is monotonic, physical, and &quot;more objective&quot; &#x2F; less dependent on legislatures :)<p>Sidereal time is about the orientation of Earth relative to stars.  It&#x27;s really important if you&#x27;re an astronomer.<p>UTC is a civil time standard based closely on TAI, an atomic time standard, <i>except</i> it gets corrected to be within 1 second of UT1, a sidereal time standard.  It is basically _the_ civil time standard and it is a little compromise to make a civil time that advances like atomic time but also does not desync from sidereal time.<p>Different administrative regions use offsets from UTC to determine their local civil time.<p>If you&#x27;re writing an application where people plan future activities and you really want to &quot;get things right &#x2F; not surprise users&quot;, you probably need to store times in the appropriate civil time standard, make it apparent _which_ civil time standard is canonical per activity if people are being coordinated across administrative regions that do not synchronize their standards, and ensure that your application can find out about planned changes to civil time in any of the administrative regions of interest.",
+  "time": 1553706523,
+  "type": "comment"
+}
+=== HN 19503470 ===
+{
+  "by": "jrochkind1",
+  "id": 19503470,
+  "kids": [
+    19503725
+  ],
+  "parent": 19500640,
+  "text": "I believe the problems described here are with <i>future</i> dates, and future timezone definition changes you don&#x27;t know about &#x27;right now&#x27; when you converting a local time to UTC for storage.<p>The nature of the problem is that when you convert from a local timestamp to UTC, you might have been &quot;wrong&quot; in the conversion. Or, more specifically, it may have been as correct today, but it may <i>become</i> wrong some time in between now and when the timestamp occurs, because of future time zone definition changes. A future timezone definition change may mean you should have converted to UTC differently, which you couldn&#x27;t have known because the timezone definition change happened after you converted. (Usually statutorily; sometimes maybe because your timezone data was wrong and was later corrected?)<p>I don&#x27;t believe these problems apply to _past_ dates or &quot;right now&quot; timestamps. Unless your timezone data is wrong I guess.<p>Does this seem right?",
+  "time": 1553708108,
+  "type": "comment"
+}
+=== HN 19503164 ===
+{
+  "by": "amenod",
+  "id": 19503164,
+  "parent": 19500640,
+  "text": "Of course. The real advice should be:<p>- store past dates in UTC<p>- store future dates in the format that makes sense, based on what the truth is. Scheduling event at 9AM local time? Use local time. Determining when the spacecrafts meet? Use UTC (or Federation Standard Time if you prefer ;) ).",
+  "time": 1553706967,
+  "type": "comment"
+}
+=== HN 19501870 ===
+{
+  "by": "kuon",
+  "id": 19501870,
+  "parent": 19500640,
+  "text": "I think it depends on what the time represents.<p>When a user inputs a time, let&#x27;s say for an alarm, this is always &quot;wall clock&quot;, and this is what you store. The timezone can be stored too, but this is also dynamic. For example, a user put a conference in a calendar at 7 am, this is dependent of the user location the day of the conference.<p>For app following the user, this is simple (like a mobile app), you just use the current timezone of the system the app is running on, but for a distributed system (client server), it might be complicated to pick a timezone and is dependent of the application.<p>For computer times (like logging, cron...), just use UTC.",
+  "time": 1553700594,
+  "type": "comment"
+}
+=== HN 19501576 ===
+{
+  "by": "argd678",
+  "id": 19501576,
+  "parent": 19500640,
+  "text": "Birthdays are a bit tricky too, say you want to show if it\u2019s someone\u2019s birthday today. In UTC you can be off by a day, so you just have to store the date without the TZ and treat it local in every TZ.",
+  "time": 1553699351,
+  "type": "comment"
+}
+=== HN 19502830 ===
+{
+  "by": "kazinator",
+  "id": 19502830,
+  "kids": [
+    19503012
+  ],
+  "parent": 19500640,
+  "text": "I don&#x27;t see how the countdown timer can fail to reach zero when the conference starts, if we have calculated the correct number of seconds between now and the conference, and do not change the conference time based on whether or not daylight savings time is canceled, to preserve it apparent local time.<p>If we decide that the conference&#x27;s start may be a moving target based on changing DST rules, then our coutdown timer cannot smoothly count down. At every tick, it has to evaluate the amount of time left to the conference start, and show that. The conference start&#x27;s local time is always converted to UTC based on the current rules; when the rules change, it jumps by one hour and so the countdown timer adjusts itself at the next tick to show an extra hour.<p>You can&#x27;t smoothly count-down toward something that starts at X or at X + 1h, and you don&#x27;t know which until later.",
+  "time": 1553705163,
+  "type": "comment"
+}
+=== HN 19501993 ===
+{
+  "by": "barrystaes",
+  "id": 19501993,
+  "kids": [
+    19502369,
+    19504170,
+    19502953,
+    19503437,
+    19503049
+  ],
+  "parent": 19500640,
+  "text": "Dont confuse UTC with GMT.<p>Store absolutely everything in UTC, do all calculations on UTC, and show in whatever timeunit the user wants. The one edge-case where user inputs a local time thats is not unique (repeated hour due to daylight savings time) can easily be solved consistently, and often is not even a problem at all.",
+  "time": 1553701198,
+  "type": "comment"
+}
+=== HN 19506767 ===
+{
+  "by": "EGreg",
+  "id": 19506767,
+  "parent": 19500640,
+  "text": "We simply use the google timezone API to find the event\u2019s local timezone, for physical events, then store UTC. For non-physical events, we store UTC based on the timezone of the user agent that made the request, taking into account daylight savings rules. On the extremely rare occasion that rules change between when the event was scheduled and when it takes place, we don\u2019t have a system in place, so the time would have to be updated manually.<p>NOW... it gets even more interesting for recurring events. Does 11AM on Tue mean 11AM on Tue after daylight savings? How about events like Shabbat candle lighting times that depend on when the sun sets?<p>It took us a while to do all these. Does anyone know a good non-API solution to timezone calculations &#x2F; shapefiles feed?",
+  "time": 1553725442,
+  "type": "comment"
+}
