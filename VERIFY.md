@@ -5,8 +5,8 @@ Fresh-clone verification – python-civil-time-footgun-lab
 ## Commit verified
 
 ```
-0c86032e15be01d41b91c559d9318c1ec1c8f1c2
-RESULTS.md: honest correctness scoring description
+d73eabf50ca9fc17551a594d7162d49a4c08487f
+VERIFY.md: verify 0c86032 (honest correctness scoring)
 ```
 
 ## Fresh clone transcript
